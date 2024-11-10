@@ -1,0 +1,32 @@
+name: python-package
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.11.2]
+
+    steps:
+    - uses: actions/cheeckout@v2  # Using the stable version
+    - name: Set up Python 3.11.2
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11.2'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run the script
+        run: python3 python-package.py
